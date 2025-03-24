@@ -2,9 +2,25 @@ import TodoSchema from './todoSchema.js'
 
 export const createTodo = async (req, res) => {
   try {
+    let { title } = req.body
+
+    const titleRegex = new RegExp('^' + title + '$', 'i')
+
+    const isTodo = await TodoSchema.findOne({ title: titleRegex })
+
+    if (isTodo) {
+      return res
+        .status(400)
+        .json({ message: 'Todo with this title already exists' })
+    }
+
     const todo = await TodoSchema.create(req.body)
 
-    res.json({ message: 'todos created !', todo })
+    if (!todo) {
+      return res.status(400).json({ message: 'Please write a valid todo' })
+    }
+
+    res.json({ message: 'Todo created!', todo })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -28,7 +44,6 @@ export const fetchTodo = async (req, res) => {
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 })
-    // .sort({ createdAt: -1 })
 
     if (!todo) {
       return res.status(404).json({ message: 'Invalid todo request' })

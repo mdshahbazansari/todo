@@ -11,7 +11,6 @@ const todoRouter = Router()
 
 todoRouter.post('/', createTodo)
 todoRouter.get('/', fetchTodo)
-// todoRouter.get('/pagination', fetchTodoPage)
 todoRouter.put('/:id', updateTodo)
 todoRouter.delete('/:id', deleteTodo)
 

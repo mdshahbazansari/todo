@@ -5,9 +5,7 @@ const todoSchema = Schema(
     title: {
       type: String,
       requird: true,
-      lowercase: true,
       trim: true,
-      unique: true,
     },
   },
   { timestamps: true }

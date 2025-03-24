@@ -10,16 +10,15 @@ axios.defaults.baseURL = 'http://localhost:8080'
 const Todo = () => {
   const dispatcher = useDispatch()
   const count = useSelector((state) => state.activeTodo)
+
   const todoActive = (e) => {
     const activeState = e.target.value
-    if (e.target.checked) {
+    if (activeState) {
       dispatcher(markActive())
     } else {
       dispatcher(markDeactive())
     }
   }
-
-  console.log(count)
 
   const [page, setPage] = useState(1)
   const { data, error, isLoading } = useSWR(
@@ -31,10 +30,6 @@ const Todo = () => {
   const pages = []
   for (let i = 1; i <= pagination; i++) {
     pages.push(i)
-  }
-
-  const pageId = (pageId) => {
-    setPage(pageId)
   }
 
   const todos = {
@@ -160,7 +155,7 @@ const Todo = () => {
           <div key={index}>
             <button
               className='bg-gray-100 px-3 py-1 rounded-full cursor-pointer'
-              onClick={() => pageId(item)}
+              onClick={() => setPage(item)}
             >
               {item}
             </button>

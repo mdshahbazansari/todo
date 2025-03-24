@@ -1,5 +1,6 @@
 import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:8080'
+const baseUrl = import.meta.env.BASE_URL
+axios.defaults.baseURL = baseUrl
 
 const fetcher = async (url) => {
   try {

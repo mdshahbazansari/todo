@@ -2,17 +2,13 @@ import TodoSchema from './todoSchema.js'
 
 export const createTodo = async (req, res) => {
   try {
-    let { title } = req.body
+    const { title } = req.body
+    const titleRegExp = new RegExp('^' + title + '$', 'i')
 
-    const titleRegex = new RegExp('^' + title + '$', 'i')
+    const isTodo = await TodoSchema.findOne({ title: titleRegExp })
 
-    const isTodo = await TodoSchema.findOne({ title: titleRegex })
-
-    if (isTodo) {
-      return res
-        .status(400)
-        .json({ message: 'Todo with this title already exists' })
-    }
+    if (isTodo)
+      return res.status(500).json({ message: 'already exist this Todo' })
 
     const todo = await TodoSchema.create(req.body)
 
